@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - M.C DENTAL CLINIC</title>
+    <link rel="stylesheet" href="../common/common.css">
+    <link rel="stylesheet" href="book.css">
+</head>
+<body>
+    <div class="booking-page-container">
+        <!-- Header -->
+        <header class="booking-header">
+            <div class="logo-section">
+                <div class="logo-icon">MC</div>
+                <div class="logo-text">
+                    <h1>M.C. Dental Clinic</h1>
+                    <p>Affordable • Professional • Caring</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="booking-main">
+            <div class="container-fluid">
+                <h2 class="section-title">Affordable Dental Services</h2>
+                <p class="section-subtitle">We offer a range of affordable dental services designed to keep your smile healthy and beautiful.</p>
+
+                <div class="booking-layout">
+                    <!-- Left Side - Services List -->
+                    <div class="services-section">
+                        <h3>OUR SERVICES</h3>
+                        <div class="services-grid" id="servicesList"></div>
+
+                        <!-- Promos & Packages -->
+                        <div class="promos-section">
+                            <h3>PROMOS & PACKAGES</h3>
+                            <div class="promo-card">
+                                <p><strong>Metal Braces (Upper + Lower):</strong> ₱3,500 down payment • ₱1,000 monthly • total ₱30,000. Includes x-ray, cleaning, retainers, fluoride varnish, and more.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side - Booking Form -->
+                    <div class="booking-form-section">
+                        <div class="form-card">
+                            <h3>Book Your Appointment</h3>
+                            <form id="bookingForm">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" id="customerName" class="form-control" placeholder="Full Name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Age</label>
+                                    <input type="number" id="customerAge" class="form-control" placeholder="Age" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Contact Number</label>
+                                    <input type="tel" id="customerContact" class="form-control" placeholder="09XXXXXXXXX" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Dental Procedure</label>
+                                    <select id="dentalProcedure" class="form-control" required>
+                                        <option value="">Select Procedure</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Appointment Date</label>
+                                    <input type="date" id="appointmentDate" class="form-control" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Preferred Time</label>
+                                    <select id="preferredTime" class="form-control" required>
+                                        <option value="">Select Time Slot</option>
+                                        <option value="09:00">9:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="13:00">1:00 PM</option>
+                                        <option value="14:00">2:00 PM</option>
+                                        <option value="15:00">3:00 PM</option>
+                                        <option value="16:00">4:00 PM</option>
+                                        <option value="17:00">5:00 PM</option>
+                                    </select>
+                                </div>
+
+                                <div class="price-display">
+                                    <label>Price:</label>
+                                    <span id="priceValue">₱500</span>
+                                </div>
+
+                                <div class="payment-methods">
+                                    <label class="payment-option">
+                                        <input type="radio" name="paymentMethod" value="Card" checked>
+                                        <span>💳 Card</span>
+                                    </label>
+                                    <label class="payment-option">
+                                        <input type="radio" name="paymentMethod" value="GCash">
+                                        <span>📱 GCash</span>
+                                    </label>
+                                    <label class="payment-option">
+                                        <input type="radio" name="paymentMethod" value="Cash">
+                                        <span>💵 Cash</span>
+                                    </label>
+                                </div>
+
+                                <button type="submit" class="btn-book-now">Book Now</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="booking-footer">
+            <p>&copy; 2025 M.C. Dental Clinic. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Health Screening Modal -->
+    <div id="healthScreeningModal" class="health-modal">
+        <div class="health-modal-content">
+            <div class="health-modal-header">
+                <div class="logo-section">
+                    <div class="logo-icon">MC</div>
+                    <div class="logo-text">
+                        <h2>M.C. Dental Clinic</h2>
+                        <p>Affordable • Professional • Caring</p>
+                    </div>
+                </div>
+                <button onclick="goBackFromScreening()" class="btn-go-back">← Go Back</button>
+            </div>
+            
+            <div class="health-modal-body">
+                <div class="warning-text">
+                    If you answer yes to any of these questions please inform us ASAP.
+                </div>
+
+                <form id="healthScreeningForm">
+                    <!-- Question 1 -->
+                    <div class="question-item">
+                        <label class="question-label">
+                            <span class="question-number">1.</span>
+                            <span class="question-text">Do you have fever or are you feeling feverish?</span>
+                        </label>
+                        <div class="answer-options">
+                            <label class="radio-option">
+                                <input type="radio" name="q1" value="yes" required>
+                                <span>Yes</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q1" value="no" required>
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="question-item">
+                        <label class="question-label">
+                            <span class="question-number">2.</span>
+                            <span class="question-text">Do you have cough or shortness of breath? Do you have sore throat?</span>
+                        </label>
+                        <div class="answer-options">
+                            <label class="radio-option">
+                                <input type="radio" name="q2" value="yes" required>
+                                <span>Yes</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q2" value="no" required>
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="question-item">
+                        <label class="question-label">
+                            <span class="question-number">3.</span>
+                            <span class="question-text">Do you have loss sense of taste or smell?</span>
+                        </label>
+                        <div class="answer-options">
+                            <label class="radio-option">
+                                <input type="radio" name="q3" value="yes" required>
+                                <span>Yes</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q3" value="no" required>
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Question 4 -->
+                    <div class="question-item">
+                        <label class="question-label">
+                            <span class="question-number">4.</span>
+                            <span class="question-text">Have you had a positive for COVID-19 test for active virus in the past 10 days?</span>
+                        </label>
+                        <div class="answer-options">
+                            <label class="radio-option">
+                                <input type="radio" name="q4" value="yes" required>
+                                <span>Yes</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q4" value="no" required>
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Question 5 -->
+                    <div class="question-item">
+                        <label class="question-label">
+                            <span class="question-number">5.</span>
+                            <span class="question-text">Have you been around anyone else with these symptoms in the last 14 days? Are you living with them?</span>
+                        </label>
+                        <div class="answer-options">
+                            <label class="radio-option">
+                                <input type="radio" name="q5" value="yes" required>
+                                <span>Yes</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q5" value="no" required>
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="info-text">
+                        If you are having any of these symptoms, it is recommended that you stay at home and contact your health care provider.
+                    </div>
+
+                    <button type="submit" class="btn-submit-screening">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../common/storage.js"></script>
+    <script src="../common/common.js"></script>
+    <script src="book.js"></script>
+</body>
+</html>

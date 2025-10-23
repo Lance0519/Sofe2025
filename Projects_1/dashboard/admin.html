@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Clinic Appointment System</title>
+    <link rel="stylesheet" href="../common/common.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="../home/index.html" class="logo">🏥 M.C DENTAL CLINIC</a>
+                <div class="user-nav">
+                    <span class="user-name" id="userName"></span>
+                    <button onclick="Auth.logout()" class="btn-logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <div class="container">
+            <h1 class="dashboard-title">Admin Dashboard</h1>
+
+            <!-- Statistics Overview -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 style="color: var(--dark-color); margin: 0;">System Overview</h2>
+                <button onclick="refreshAllData()" class="btn btn-secondary" title="Refresh all data">
+                    🔄 Refresh All Data
+                </button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card stat-card-primary">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="totalAppointments">0</div>
+                        <div class="stat-label">Total Appointments</div>
+                    </div>
+                </div>
+                <div class="stat-card stat-card-success">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="totalPatients">0</div>
+                        <div class="stat-label">Total Patients</div>
+                    </div>
+                </div>
+                <div class="stat-card stat-card-info">
+                    <div class="stat-icon">🦷</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="totalDoctors">0</div>
+                        <div class="stat-label">Total Dentists</div>
+                    </div>
+                </div>
+                <div class="stat-card stat-card-warning">
+                    <div class="stat-icon">💼</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="totalServices">0</div>
+                        <div class="stat-label">Total Services</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-btn active" data-tab="staff" onclick="switchTab('staff')">Staff Management</button>
+                <button class="tab-btn" data-tab="doctors" onclick="switchTab('doctors')">Dentist Management</button>
+                <button class="tab-btn" data-tab="services" onclick="switchTab('services')">Service Management</button>
+                <button class="tab-btn" data-tab="promos" onclick="switchTab('promos')">Promo Management</button>
+                <button class="tab-btn" data-tab="schedules" onclick="switchTab('schedules')">Schedule Management</button>
+                <button class="tab-btn" data-tab="appointments" onclick="switchTab('appointments')">All Appointments</button>
+                <button class="tab-btn" data-tab="patients" onclick="switchTab('patients')">Patient Profiles</button>
+            </div>
+
+            <!-- Staff Management Tab -->
+            <div id="staffTab" class="tab-content active">
+                <div class="section-header">
+                    <h2>Staff Accounts</h2>
+                    <button onclick="showCreateStaffModal()" class="btn btn-primary">
+                        ➕ Create Staff Account
+                    </button>
+                </div>
+                <div id="staffList" class="data-grid"></div>
+            </div>
+
+            <!-- Doctors Management Tab -->
+            <div id="doctorsTab" class="tab-content">
+                <div class="section-header">
+                    <h2>Dentists</h2>
+                    <button onclick="showCreateDoctorModal()" class="btn btn-primary">
+                        ➕ Add Dentist
+                    </button>
+                </div>
+                <div id="doctorsList" class="data-grid"></div>
+            </div>
+
+            <!-- Services Management Tab -->
+            <div id="servicesTab" class="tab-content">
+                <div class="section-header">
+                    <h2>Services</h2>
+                    <button onclick="showCreateServiceModal()" class="btn btn-primary">
+                        ➕ Add Service
+                    </button>
+                </div>
+                <div id="servicesList" class="data-grid"></div>
+            </div>
+
+            <!-- Promos Management Tab -->
+            <div id="promosTab" class="tab-content">
+                <div class="section-header">
+                    <h2>Special Promotions</h2>
+                    <button onclick="showCreatePromoModal()" class="btn btn-primary">
+                        ➕ Add Promotion
+                    </button>
+                </div>
+                <div id="promosList" class="data-grid"></div>
+            </div>
+
+            <!-- Schedules Management Tab -->
+            <div id="schedulesTab" class="tab-content">
+                <div class="section-header">
+                    <h2>Dentist Schedules</h2>
+                    <button onclick="showCreateScheduleModal()" class="btn btn-primary">
+                        ➕ Add Schedule
+                    </button>
+                </div>
+                <div id="schedulesList"></div>
+            </div>
+
+            <!-- Appointments Tab -->
+            <div id="appointmentsTab" class="tab-content">
+                <div class="section-header">
+                    <h2>All Appointments</h2>
+                </div>
+                <div id="appointmentsList"></div>
+            </div>
+
+            <!-- Patients Tab -->
+            <div id="patientsTab" class="tab-content">
+                <div class="section-header">
+                    <h2>Patient Profiles</h2>
+                </div>
+                <div id="patientsList" class="data-grid"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create Staff Modal -->
+    <div id="createStaffModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Create Staff Account</div>
+            <form id="createStaffForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="staffName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="staffUsername" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="staffEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="staffPassword" class="form-control" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateStaffModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Doctor Modal -->
+    <div id="createDoctorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Add Dentist</div>
+            <form id="createDoctorForm">
+                <div class="form-group">
+                    <label>Dentist Name</label>
+                    <input type="text" id="doctorName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Specialty</label>
+                    <select id="doctorSpecialty" class="form-control" required>
+                        <option value="">Select Specialty</option>
+                        <option value="General Dentistry">General Dentistry</option>
+                        <option value="Orthodontics">Orthodontics</option>
+                        <option value="Oral Surgery">Oral Surgery</option>
+                        <option value="Prosthodontics">Prosthodontics</option>
+                        <option value="Cosmetic Dentistry">Cosmetic Dentistry</option>
+                        <option value="Endodontics">Endodontics</option>
+                        <option value="Periodontics">Periodontics</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Available</label>
+                    <select id="doctorAvailable" class="form-control">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateDoctorModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Dentist</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Promo Modal -->
+    <div id="createPromoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Add Promotion</div>
+            <form id="createPromoForm">
+                <div class="form-group">
+                    <label>Promotion Title</label>
+                    <input type="text" id="promoTitle" class="form-control" placeholder="e.g., Summer Teeth Whitening Special" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="promoDescription" class="form-control" rows="3" placeholder="Describe the promotion details..." required></textarea>
+                </div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label>Discount Badge</label>
+                        <input type="text" id="promoDiscount" class="form-control" placeholder="e.g., 20% OFF, ₱500 OFF" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Valid Until</label>
+                        <input type="date" id="promoValidUntil" class="form-control">
+                    </div>
+                </div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label>Original Price (Optional)</label>
+                        <input type="text" id="promoOriginalPrice" class="form-control" placeholder="e.g., ₱10,000">
+                    </div>
+                    <div class="form-group">
+                        <label>Promo Price</label>
+                        <input type="text" id="promoPrice" class="form-control" placeholder="e.g., ₱8,000" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreatePromoModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Promotion</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Promo Modal -->
+    <div id="editPromoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Edit Promotion</div>
+            <form id="editPromoForm">
+                <input type="hidden" id="editPromoId">
+                <div class="form-group">
+                    <label>Promotion Title</label>
+                    <input type="text" id="editPromoTitle" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="editPromoDescription" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label>Discount Badge</label>
+                        <input type="text" id="editPromoDiscount" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Valid Until</label>
+                        <input type="date" id="editPromoValidUntil" class="form-control">
+                    </div>
+                </div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label>Original Price (Optional)</label>
+                        <input type="text" id="editPromoOriginalPrice" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Promo Price</label>
+                        <input type="text" id="editPromoPrice" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditPromoModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Promotion</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Service Modal -->
+    <div id="createServiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Add Service</div>
+            <form id="createServiceForm">
+                <div class="form-group">
+                    <label>Service Name</label>
+                    <input type="text" id="serviceName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="serviceDescription" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Duration</label>
+                    <input type="text" id="serviceDuration" class="form-control" placeholder="e.g., 30 mins" required>
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="text" id="servicePrice" class="form-control" placeholder="e.g., $50" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateServiceModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Service</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Schedule Modal -->
+    <div id="createScheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Add Schedule</div>
+            <form id="createScheduleForm">
+                <div class="form-group">
+                    <label>Dentist</label>
+                    <select id="scheduleDoctor" class="form-control" required>
+                        <option value="">Select Dentist</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Day of Week</label>
+                    <select id="scheduleDay" class="form-control" required>
+                        <option value="">Select Day</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <input type="time" id="scheduleStartTime" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>End Time</label>
+                    <input type="time" id="scheduleEndTime" class="form-control" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateScheduleModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Schedule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Patient Profile Modal -->
+    <div id="patientProfileModal" class="modal">
+        <div class="modal-content" style="width: 90%; max-width: 1200px; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header">
+                <button onclick="closePatientProfileModal()" class="btn btn-secondary" style="margin-right: 1rem;">← Back</button>
+                <span id="patientProfileTitle">Patient Profile</span>
+                <button class="modal-close" onclick="closePatientProfileModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="currentPatientId">
+                
+                <!-- Personal Information Section -->
+                <div class="profile-section">
+                    <h3>📋 Personal Information</h3>
+                    <form id="patientInfoForm">
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="patientFullName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="patientEmail" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" id="patientPhone" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth</label>
+                                <input type="date" id="patientDOB" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea id="patientAddress" class="form-control" rows="2" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+
+                <!-- Treatment Session Documentation Section -->
+                <div class="profile-section">
+                    <div class="section-header-inline">
+                        <h3>📸 Treatment Session Documentation</h3>
+                        <button onclick="showUploadSessionImageModal()" class="btn btn-primary btn-sm">
+                            ➕ Upload Session Photo
+                        </button>
+                    </div>
+                    <div id="patientSessionImages" class="session-images-list"></div>
+                </div>
+
+                <!-- Medical History Section -->
+                <div class="profile-section">
+                    <div class="section-header-inline">
+                        <h3>📊 Patient Chart - Medical History</h3>
+                        <button onclick="showAddMedicalHistoryModal()" class="btn btn-primary btn-sm">
+                            ➕ Add Medical Record
+                        </button>
+                    </div>
+                    <div id="patientMedicalHistory" class="medical-history-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Session Image Modal -->
+    <div id="uploadSessionImageModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Upload Treatment Session Photo</div>
+            <form id="uploadSessionImageForm">
+                <div class="form-group">
+                    <label>Session Title</label>
+                    <input type="text" id="sessionTitle" class="form-control" placeholder="e.g., Root Canal Procedure" required>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="sessionDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Procedure/Service</label>
+                    <select id="sessionProcedure" class="form-control" required>
+                        <option value="">Select Procedure</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Dentist</label>
+                    <select id="sessionDentist" class="form-control" required>
+                        <option value="">Select Dentist</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Photo Type</label>
+                    <select id="sessionPhotoType" class="form-control" required>
+                        <option value="Before">Before Treatment</option>
+                        <option value="During">During Treatment</option>
+                        <option value="After">After Treatment</option>
+                        <option value="X-Ray">X-Ray</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Photo Label</label>
+                    <input type="text" id="sessionPhotoLabel" class="form-control" placeholder="e.g., Upper right molar">
+                </div>
+                <div class="form-group">
+                    <label>Image File</label>
+                    <input type="file" id="sessionImageFile" class="form-control" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label>Notes/Description</label>
+                    <textarea id="sessionDescription" class="form-control" rows="3" placeholder="Additional notes about this session..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeUploadSessionImageModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Upload Photo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Medical History Modal -->
+    <div id="addMedicalHistoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Add Medical History Record</div>
+            <form id="addMedicalHistoryForm">
+                <div class="form-group">
+                    <label>Service/Procedure</label>
+                    <select id="medHistoryService" class="form-control" required>
+                        <option value="">Select Service</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Doctor</label>
+                    <select id="medHistoryDoctor" class="form-control" required>
+                        <option value="">Select Doctor</option>
+                    </select>
+                </div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="medHistoryDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="time" id="medHistoryTime" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Treatment Notes</label>
+                    <textarea id="medHistoryTreatment" class="form-control" rows="3" placeholder="Describe the treatment provided..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Remarks</label>
+                    <textarea id="medHistoryRemarks" class="form-control" rows="3" placeholder="Additional remarks or observations..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddMedicalHistoryModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Medical History Modal -->
+    <div id="editMedicalHistoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Edit Medical History Record</div>
+            <form id="editMedicalHistoryForm">
+                <input type="hidden" id="editMedHistoryId">
+                <div class="form-group">
+                    <label>Service/Procedure</label>
+                    <input type="text" id="editMedHistoryService" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Doctor</label>
+                    <input type="text" id="editMedHistoryDoctor" class="form-control" readonly>
+                </div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="text" id="editMedHistoryDate" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="text" id="editMedHistoryTime" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Treatment Notes</label>
+                    <textarea id="editMedHistoryTreatment" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Remarks</label>
+                    <textarea id="editMedHistoryRemarks" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditMedicalHistoryModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 M.C DENTAL CLINIC. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../common/storage.js"></script>
+    <script src="../common/common.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,228 @@
+/* Contact page styles */
+
+.page-hero {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+    border-bottom: 2px solid #D4AF37;
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.page-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.page-hero p {
+    font-size: 1.25rem;
+    opacity: 0.95;
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 4rem 0;
+}
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+/* Contact Info */
+.contact-info h2 {
+    color: #D4AF37;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.contact-info > p {
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.info-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.info-item {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.info-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #D4AF37, #FFD700);
+    color: #000000;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.info-content h3 {
+    color: #D4AF37;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.info-content p {
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Contact Form */
+.contact-form-wrapper {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-lg);
+    border: 2px solid #D4AF37;
+}
+
+.contact-form-wrapper h2 {
+    color: #D4AF37;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* Map Section */
+.map-section {
+    padding: 4rem 0;
+    background-color: #000000;
+    border-top: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+}
+
+.section-title {
+    text-align: center;
+    color: #D4AF37;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+
+.map-placeholder {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    border-radius: 0.5rem;
+    padding: 4rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border: 1px solid #333333;
+}
+
+.map-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #D4AF37;
+}
+
+.map-placeholder p {
+    color: var(--text-color);
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.map-address {
+    color: #D4AF37;
+    font-weight: 600;
+}
+
+/* Quick Actions Section */
+.quick-actions-section {
+    padding: 4rem 0;
+}
+
+.quick-actions-section h2 {
+    text-align: center;
+    color: #D4AF37;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    font-weight: bold;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.action-card {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-top: 4px solid #D4AF37;
+    border: 1px solid #333333;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+    border-color: #D4AF37;
+}
+
+.action-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #D4AF37;
+}
+
+.action-card h3 {
+    color: #D4AF37;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.action-card p {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .page-hero p {
+        font-size: 1rem;
+    }
+    
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-form-wrapper {
+        padding: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .map-placeholder {
+        padding: 2rem 1rem;
+    }
+    
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
